@@ -1,0 +1,22 @@
+{
+  "name": "ping-pong-webservice",
+  "version": "1.0.0",
+  "description": "A digital interface for a Ping Pong table",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/k2r79/PingPongWebservice.git"
+  },
+  "author": "GOP-Labs",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/k2r79/PingPongWebservice/issues"
+  },
+  "homepage": "https://github.com/k2r79/PingPongWebservice#readme",
+  "dependencies": {
+    "express": "^4.12.4"
+  }
+}
