@@ -4,6 +4,7 @@
   "description": "A digital interface for a Ping Pong table",
   "main": "app.js",
   "scripts": {
+    "start": "nodejs app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
