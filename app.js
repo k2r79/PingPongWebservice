@@ -13,3 +13,5 @@ app.get('/', function(req, res) {
         lastname: 'Toi !'
     });
 });
+
+module.exports = app;
