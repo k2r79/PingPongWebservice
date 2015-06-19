@@ -5,13 +5,13 @@ var sinon = require('sinon');
 var spy = sinon.spy;
 var stub = sinon.stub;
 
-var gameListener;
+var radioService;
 var nrfStub = stub();
 var EventEmitter = require('events').EventEmitter;
 var nrfEventEmitterSpy = stub();
 var rxEventEmitter;
 
-describe('The game listener', function() {
+describe('The Radio Service', function() {
     before(function(done) {
         // Settings variables
         var channelValue, dataRateValue, crcBytesValue, autoRetransmitValue;
@@ -58,13 +58,13 @@ describe('The game listener', function() {
         };
 
         // Load the game listener
-        var GameListener = proxyquire('../services/game_listener', {
+        var RadioService = proxyquire('../services/radio_service', {
             nrf: nrfStub
         });
 
-        // Start the game listener
-        gameListener = new GameListener();
-        gameListener.open();
+        // Start the radio service
+        radioService = new RadioService();
+        radioService.open();
 
         done();
 
@@ -84,7 +84,7 @@ describe('The game listener', function() {
         rxEventEmitter.read.returns(testData);
 
         // Subscribe to the RXData event
-        gameListener.on('RXData', function(data) {
+        radioService.on('RXData', function(data) {
             expect(data).to.equal(testData.split('').reverse().join('').toString());
 
             done();
@@ -101,6 +101,6 @@ describe('The game listener', function() {
         };
 
         // Close the radio streams
-        gameListener.close();
+        radioService.close();
     });
 });

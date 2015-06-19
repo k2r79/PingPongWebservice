@@ -2,7 +2,7 @@ var util = require('util');
 var radio = require('nrf').connect('/dev/spidev0.0', 25, 22);
 var EventEmitter = require('events').EventEmitter;
 
-var GameListener = function() {
+var RadioService = function() {
     var self = this;
 
     radio.channel(0x4c)
@@ -31,6 +31,6 @@ var GameListener = function() {
     };
 };
 
-util.inherits(GameListener, EventEmitter);
+util.inherits(RadioService, EventEmitter);
 
-module.exports = GameListener;
+module.exports = RadioService;
