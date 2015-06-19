@@ -14,6 +14,10 @@ var GameService = function() {
         });
     };
 
+    this.stop = function() {
+        radioService.close();
+    };
+
     this.scores = scores;
 };
 

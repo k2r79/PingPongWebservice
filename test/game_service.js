@@ -13,6 +13,7 @@ describe('The Game Service', function() {
     beforeEach(function(done) {
         radioServiceStub = new EventEmitter();
         radioServiceStub.open = spy();
+        radioServiceStub.close = spy();
 
         var GameService = proxyquire('../services/game_service', {
             './radio_service': radioServiceStub
@@ -60,4 +61,12 @@ describe('The Game Service', function() {
         expect(gameService.scores[0]).to.equal(1);
         expect(gameService.scores[1]).to.equal(1);
     }
+
+    afterEach(function(done) {
+        gameService.stop();
+
+        expect(radioServiceStub.close.calledOnce).to.be.true;
+
+        done();
+    });
 });
