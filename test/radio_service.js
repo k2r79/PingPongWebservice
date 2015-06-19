@@ -12,7 +12,7 @@ var nrfEventEmitterSpy = stub();
 var rxEventEmitter;
 
 describe('The Radio Service', function() {
-    before(function(done) {
+    beforeEach(function(done) {
         // Settings variables
         var channelValue, dataRateValue, crcBytesValue, autoRetransmitValue;
 
@@ -94,7 +94,7 @@ describe('The Radio Service', function() {
         rxEventEmitter.emit('readable');
     });
 
-    after(function(done) {
+    afterEach(function(done) {
         // Stub the radio end method
         nrfEventEmitterSpy.end = function() {
             done();

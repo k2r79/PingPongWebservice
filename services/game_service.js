@@ -10,7 +10,7 @@ var GameService = function() {
         radioService.open();
 
         radioService.on('RXData', function(data) {
-            scores[parseInt(data)]++;
+            scores[data[0]] += (data[1] == "+") ? 1 : -1;
         });
     };
 
