@@ -1,4 +1,4 @@
-var proxyquire = require('proxyquire')
+var proxyquire = require('proxyquire');
 var chai = require('chai');
 var expect = chai.expect;
 var sinon = require('sinon');
