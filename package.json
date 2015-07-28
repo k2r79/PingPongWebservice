@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/k2r79/PingPongWebservice#readme",
   "dependencies": {
+    "async": "^1.3.0",
     "express": "^4.12.4",
+    "mongoose": "^4.0.6",
     "nrf": "^0.8.3"
   },
   "devDependencies": {
