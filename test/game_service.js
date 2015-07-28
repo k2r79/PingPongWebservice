@@ -18,6 +18,7 @@ var EventEmitter = require('events').EventEmitter;
 
 describe('The Game Service', function() {
     beforeEach(function(done) {
+        // Empty the database
         for (var collectionIndex in mongoose.connection.collections) {
             mongoose.connection.collections[collectionIndex].remove(function() {});
         }
@@ -32,6 +33,7 @@ describe('The Game Service', function() {
         players[0].name = 'First player';
         players[1].name = 'Second player';
 
+        // Save each player asynchronously
         async.each(players, function(player, finished) {
             player.save(function(err, savedPlayer) {
                 if (err) {
@@ -50,10 +52,12 @@ describe('The Game Service', function() {
     }
 
     function createGameService(callback) {
+        // Stub the radio service
         radioServiceStub = new EventEmitter();
         radioServiceStub.open = spy();
         radioServiceStub.close = spy();
 
+        // Inject the stubbed radio service
         var GameService = proxyquire('../services/game_service', {
             './radio_service': radioServiceStub
         });
@@ -74,34 +78,7 @@ describe('The Game Service', function() {
 
     it('can receive a score decrement and save it', function(done) {
         incrementBothScores(function() {
-            async.series([
-                function(finished) {
-                    radioServiceStub.emit('RXData', '1-');
-
-                    gameService.once('Score', function() {
-                        checkPlayerScore(0, 1, finished);
-                        checkPlayerScore(1, 0, finished);
-
-                        finished();
-                    });
-                },
-                function(finished) {
-                    radioServiceStub.emit('RXData', '0-');
-
-                    gameService.once('Score', function() {
-                        checkPlayerScore(0, 0, finished);
-                        checkPlayerScore(1, 0, finished);
-
-                        finished();
-                    });
-                }
-            ], function(err, results) {
-                if (err) {
-                    throw err;
-                }
-
-                done();
-            });
+            decrementBothScores(done);
         });
     });
 
@@ -114,7 +91,7 @@ describe('The Game Service', function() {
                     checkPlayerScore(0, 0);
                     checkPlayerScore(1, 1);
 
-                    finished(null, null);
+                    finished();
                 });
             },
             function(finished) {
@@ -124,7 +101,38 @@ describe('The Game Service', function() {
                     checkPlayerScore(0, 1);
                     checkPlayerScore(1, 1);
 
-                    finished(null, null);
+                    finished();
+                });
+            }
+        ], function(err, results) {
+            if (err) {
+                throw err;
+            }
+
+            callback();
+        });
+    }
+
+    function decrementBothScores(callback) {
+        async.series([
+            function(finished) {
+                radioServiceStub.emit('RXData', '1-');
+
+                gameService.once('Score', function() {
+                    checkPlayerScore(0, 1, finished);
+                    checkPlayerScore(1, 0, finished);
+
+                    finished();
+                });
+            },
+            function(finished) {
+                radioServiceStub.emit('RXData', '0-');
+
+                gameService.once('Score', function() {
+                    checkPlayerScore(0, 0, finished);
+                    checkPlayerScore(1, 0, finished);
+
+                    finished();
                 });
             }
         ], function(err, results) {
